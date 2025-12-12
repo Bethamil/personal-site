@@ -134,8 +134,8 @@ function DataPulses({ pairs, color }: { pairs: any[], color: string }) {
   const pulses = useMemo(() => {
     return pairs.map(() => ({
       progress: Math.random(),
-      speed: 0.3 + Math.random() * 0.5, 
-      active: Math.random() > 0.4
+      speed: 0.05 + Math.random() * 0.05, // Much slower: 0.05 to 0.1
+      shouldRender: Math.random() > 0.5 // Only render 50% of the pulses
     }));
   }, [pairs]);
 
@@ -143,7 +143,8 @@ function DataPulses({ pairs, color }: { pairs: any[], color: string }) {
     if (!meshRef.current) return;
 
     pulses.forEach((pulse, i) => {
-      if (!pulse.active) {
+      // Skip updates for non-rendered pulses
+      if (!pulse.shouldRender) {
          dummy.scale.set(0, 0, 0);
          dummy.updateMatrix();
          meshRef.current!.setMatrixAt(i, dummy.matrix);
@@ -151,16 +152,16 @@ function DataPulses({ pairs, color }: { pairs: any[], color: string }) {
       }
 
       pulse.progress += pulse.speed * delta;
+      
+      // Loop continuously
       if (pulse.progress > 1) {
         pulse.progress = 0;
-        if (Math.random() > 0.8) pulse.active = false;
-      } else if (pulse.progress === 0 && Math.random() > 0.6) {
-        pulse.active = true;
       }
 
       const { start, end } = pairs[i];
       dummy.position.lerpVectors(start, end, pulse.progress);
       
+      // Simple fade in/out at ends of the line
       const fade = Math.sin(pulse.progress * Math.PI);
       dummy.scale.setScalar(0.2 * fade); 
       
