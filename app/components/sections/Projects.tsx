@@ -1,12 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Sparkles } from "lucide-react";
+import { ExternalLink, Github, Sparkles, ArrowDown } from "lucide-react";
 import { PROJECTS, SOCIAL_LINKS } from "@/app/constants";
 
 export default function Projects() {
+  const scrollToContact = () => {
+    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <section id="projects" className="py-24 sm:py-32 px-4">
+    <section id="projects" className="relative py-24 sm:py-32 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -105,6 +109,23 @@ export default function Projects() {
           </motion.a>
         </motion.div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        onClick={scrollToContact}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted hover:text-accent transition-colors"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          <ArrowDown className="w-6 h-6" />
+        </motion.div>
+      </motion.button>
     </section>
   );
 }

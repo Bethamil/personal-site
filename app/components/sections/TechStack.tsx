@@ -17,6 +17,7 @@ import {
   GitBranch,
   Terminal,
   RefreshCw,
+  ArrowDown,
 } from "lucide-react";
 import { TECH_STACK } from "@/app/constants";
 
@@ -39,8 +40,12 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export default function TechStack() {
+  const scrollToProjects = () => {
+    document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <section id="tech" className="py-24 sm:py-32 px-4 bg-gradient-to-b from-transparent via-accent/5 to-transparent">
+    <section id="tech" className="relative py-24 sm:py-32 px-4 bg-gradient-to-b from-transparent via-accent/5 to-transparent">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -101,6 +106,23 @@ export default function TechStack() {
           ))}
         </div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        onClick={scrollToProjects}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted hover:text-accent transition-colors"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          <ArrowDown className="w-6 h-6" />
+        </motion.div>
+      </motion.button>
     </section>
   );
 }

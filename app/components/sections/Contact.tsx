@@ -1,12 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Linkedin, Mail, ArrowUpRight } from "lucide-react";
+import { Linkedin, Mail, ArrowUpRight, ArrowUp } from "lucide-react";
 import { CONTACT, SOCIAL_LINKS, SITE_CONFIG } from "@/app/constants";
 
 export default function Contact() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <section id="contact" className="py-24 sm:py-32 px-4">
+    <section id="contact" className="relative py-24 sm:py-32 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -74,6 +78,23 @@ export default function Contact() {
           </p>
         </motion.footer>
       </div>
+
+      {/* Scroll to Top Indicator */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        onClick={scrollToTop}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted hover:text-accent transition-colors"
+      >
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          <ArrowUp className="w-6 h-6" />
+        </motion.div>
+      </motion.button>
     </section>
   );
 }

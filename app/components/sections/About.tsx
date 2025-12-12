@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Brain, Code2, Layers } from "lucide-react";
+import { Brain, Code2, Layers, ArrowDown } from "lucide-react";
 import { ABOUT_CONTENT } from "@/app/constants";
 
 const highlights = [
@@ -23,8 +23,12 @@ const highlights = [
 ];
 
 export default function About() {
+  const scrollToTech = () => {
+    document.querySelector("#tech")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <section id="about" className="py-24 sm:py-32 px-4">
+    <section id="about" className="relative py-24 sm:py-32 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -81,6 +85,23 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        onClick={scrollToTech}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted hover:text-accent transition-colors"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          <ArrowDown className="w-6 h-6" />
+        </motion.div>
+      </motion.button>
     </section>
   );
 }
