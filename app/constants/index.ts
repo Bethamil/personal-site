@@ -88,9 +88,23 @@ export const PROJECTS = {
       featured: true,
     },
   ],
+  other: [
+    {
+      name: "LLM Param Playground",
+      description:
+        "A Python-based web application built with Gradio that serves as an interactive playground for Large Language Models. Experiment with multiple LLM providers (OpenAI, OpenRouter, custom endpoints), fine-tune parameters, and explore advanced features like RAG and MCP tool integration.",
+      tags: ["Python", "LLMs", "Gradio", "RAG", "MCP"],
+      link: "https://github.com/Bethamil/LLM_param_playground",
+      featured: false,
+    },
+  ],
   githubCta: {
     text: "View more projects on GitHub",
-    link: "https://github.com/emielbloem",
+    link: "https://github.com/Bethamil",
+  },
+  drupalCta: {
+    text: "View Drupal projects",
+    link: "https://git.drupalcode.org/dashboard/projects",
   },
 };
 

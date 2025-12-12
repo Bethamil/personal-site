@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Sparkles, ArrowDown } from "lucide-react";
+import { ExternalLink, Github, Sparkles, ArrowDown, Droplet } from "lucide-react";
 import { PROJECTS, SOCIAL_LINKS } from "@/app/constants";
 
 export default function Projects() {
@@ -88,16 +88,66 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* GitHub CTA */}
+        {/* Other Projects */}
+        <div className="space-y-6 mb-12">
+          {PROJECTS.other.map((project, index) => (
+            <motion.div
+              key={project.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="relative group"
+            >
+              <div className="relative bg-card border border-card-border rounded-2xl p-6 hover:border-accent/50 transition-all duration-300">
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold mb-3">{project.name}</h3>
+                    <p className="text-muted mb-4 leading-relaxed">
+                      {project.description}
+                    </p>
+                    
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 text-sm bg-accent/10 text-accent rounded-full"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Link Button */}
+                  <motion.a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-6 py-3 bg-card border border-card-border rounded-full hover:border-accent hover:bg-accent/5 transition-all duration-300 whitespace-nowrap self-start"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <span className="font-medium">View Project</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <motion.a
-            href={SOCIAL_LINKS.github}
+            href={PROJECTS.githubCta.link}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 bg-card border border-card-border rounded-full hover:border-accent hover:bg-accent/5 transition-all duration-300 group"
@@ -106,6 +156,18 @@ export default function Projects() {
           >
             <Github className="w-5 h-5 group-hover:text-accent transition-colors" />
             <span className="font-medium">{PROJECTS.githubCta.text}</span>
+          </motion.a>
+          
+          <motion.a
+            href={PROJECTS.drupalCta.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-card border border-card-border rounded-full hover:border-accent hover:bg-accent/5 transition-all duration-300 group"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Droplet className="w-5 h-5 group-hover:text-accent transition-colors" />
+            <span className="font-medium">{PROJECTS.drupalCta.text}</span>
           </motion.a>
         </motion.div>
       </div>
