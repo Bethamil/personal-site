@@ -14,17 +14,18 @@ export const NAVIGATION = [
 ];
 
 export const SOCIAL_LINKS = {
-  linkedin: "https://www.linkedin.com/in/emiel-bloem/",
-  github: "https://github.com/emielbloem",
+  github: "https://github.com/Bethamil",
+  linkedin: "https://www.linkedin.com/in/emiel-bloem-01239261",
+  drupal: "https://www.drupal.org/u/emielb",
 };
 
 export const ABOUT_CONTENT = {
   sectionLabel: "ABOUT ME",
   title: "About",
   paragraphs: [
-    "I have extensive experience as a full-stack software engineer, proficient in multiple programming languages like Java, Kotlin, PHP, Python, and JavaScript. My expertise includes frameworks such as React, Next.js, and Drupal, enabling me to build robust and scalable applications.",
-    "My current specialization lies at the intersection of AI and web development. I work extensively with Large Language Models (LLMs), building intelligent applications that leverage cutting-edge AI technologies. From prompt engineering to RAG architectures and AI-powered user experiences, I bring artificial intelligence seamlessly into modern web applications.",
-    "I combine deep technical knowledge with a passion for creating exceptional user experiences. Whether it's architecting complex Drupal solutions, building performant Next.js applications, or integrating AI capabilities, I deliver solutions that are both powerful and elegant.",
+    "I'm a full-stack software engineer with a strong focus on AI integration and modern web development. My primary languages are Python, TypeScript, and PHP, which I use daily to build intelligent, scalable applications across diverse technology stacks.",
+    "My specialization lies at the intersection of AI and web development. I work extensively with Large Language Models—both frontier models and open source/weight alternatives. From prompt engineering to RAG architectures and AI-powered user experiences, I bring cutting-edge artificial intelligence seamlessly into production applications.",
+    "I combine deep technical knowledge with practical experience in enterprise CMS systems like Drupal, modern frameworks like Next.js and Symfony, and backend technologies including Spring Boot. Whether it's building intelligent AI applications, architecting complex web solutions, or deploying with Kubernetes and Docker, I deliver powerful and elegant solutions.",
   ],
 };
 
@@ -37,9 +38,9 @@ export const TECH_STACK = {
     {
       name: "AI & Machine Learning",
       items: [
-        { name: "OpenAI / GPT", icon: "Brain" },
+        { name: "Frontier LLMs", icon: "Brain" },
+        { name: "Open Source/Weight LLMs", icon: "Sparkles" },
         { name: "LangChain", icon: "Link" },
-        { name: "Python", icon: "Code" },
         { name: "RAG Systems", icon: "Database" },
       ],
     },
@@ -57,16 +58,16 @@ export const TECH_STACK = {
       items: [
         { name: "Drupal", icon: "Droplet" },
         { name: "PHP", icon: "Server" },
-        { name: "Node.js", icon: "Hexagon" },
-        { name: "PostgreSQL", icon: "Database" },
+        { name: "Symfony", icon: "Code2" },
+        { name: "Spring Boot", icon: "Leaf" },
       ],
     },
     {
       name: "DevOps & Tools",
       items: [
+        { name: "Kubernetes", icon: "Ship" },
         { name: "Docker", icon: "Container" },
         { name: "Git", icon: "GitBranch" },
-        { name: "Linux", icon: "Terminal" },
         { name: "CI/CD", icon: "RefreshCw" },
       ],
     },

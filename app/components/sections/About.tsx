@@ -7,18 +7,18 @@ import { ABOUT_CONTENT } from "@/app/constants";
 const highlights = [
   {
     icon: Brain,
-    title: "AI Integration",
-    description: "LLMs, RAG systems, and intelligent automation",
+    title: "AI & LLM Specialist",
+    description: "Frontier and open source/weight models, RAG systems, intelligent automation",
   },
   {
     icon: Code2,
-    title: "Full-Stack",
-    description: "React, Next.js, PHP, Python, and more",
+    title: "Full-Stack Developer",
+    description: "Python, TypeScript, PHP across modern frameworks",
   },
   {
     icon: Layers,
-    title: "CMS Expert",
-    description: "Enterprise Drupal solutions and architecture",
+    title: "Enterprise Systems",
+    description: "Drupal, Symfony, Spring Boot, and scalable architectures",
   },
 ];
 

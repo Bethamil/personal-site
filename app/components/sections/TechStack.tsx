@@ -18,6 +18,11 @@ import {
   Terminal,
   RefreshCw,
   ArrowDown,
+  Sparkles,
+  Code2,
+  Leaf,
+  CircuitBoard,
+  Ship,
 } from "lucide-react";
 import { TECH_STACK } from "@/app/constants";
 
@@ -37,6 +42,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   GitBranch,
   Terminal,
   RefreshCw,
+  Sparkles,
+  Code2,
+  Leaf,
+  CircuitBoard,
+  Ship,
 };
 
 export default function TechStack() {

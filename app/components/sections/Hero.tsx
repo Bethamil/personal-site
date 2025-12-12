@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Droplet } from "lucide-react";
 import { SITE_CONFIG, SOCIAL_LINKS } from "@/app/constants";
 
 const roles = [
   "AI & Full-Stack Developer",
   "LLM Integration Specialist",
-  "Next.js Expert",
-  "Drupal Architect",
+  "Next.js Developer",
+  "Drupal Developer",
 ];
 
 export default function Hero() {
@@ -100,7 +100,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex items-center justify-center gap-4 mb-16"
+          className="flex items-center justify-center gap-4 mb-16 flex-wrap"
         >
           <motion.a
             href={SOCIAL_LINKS.github}
@@ -123,6 +123,17 @@ export default function Hero() {
           >
             <Linkedin className="w-5 h-5" />
             <span className="font-medium">LinkedIn</span>
+          </motion.a>
+          <motion.a
+            href={SOCIAL_LINKS.drupal}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-6 py-3 bg-card border border-card-border rounded-full hover:border-accent transition-all duration-300 group"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Droplet className="w-5 h-5 group-hover:text-accent transition-colors" />
+            <span className="font-medium">Drupal</span>
           </motion.a>
         </motion.div>
 

@@ -45,7 +45,7 @@ export default function Contact() {
                 href={SOCIAL_LINKS.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-8 py-4 bg-[#0077B5] text-white rounded-full hover:bg-[#006399] transition-colors duration-300 w-full sm:w-auto justify-center"
+                className="flex items-center gap-3 px-8 py-4 bg-accent text-white rounded-full hover:bg-accent-dark transition-all duration-300 w-full sm:w-auto justify-center"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
