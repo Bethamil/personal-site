@@ -27,7 +27,7 @@ function Particles({ count = 100 }: { count?: number }) {
 
   const dummy = useMemo(() => new THREE.Object3D(), []);
   
-  const color = theme === "dark" ? "#22d3ee" : "#0891b2";
+  const color = theme === "dark" ? "#22d3ee" : "#0d6e6e";
 
   useFrame(() => {
     if (!mesh.current) return;
@@ -66,7 +66,7 @@ function GradientBlob() {
   const { theme } = useTheme();
   const { viewport, pointer } = useThree();
   
-  const color = theme === "dark" ? "#0891b2" : "#06b6d4";
+  const color = theme === "dark" ? "#0891b2" : "#0a8585";
 
   useFrame(({ clock }) => {
     if (!mesh.current) return;
@@ -108,7 +108,7 @@ function GradientBlob() {
 function FloatingShapes() {
   const { theme } = useTheme();
   
-  const color = theme === "dark" ? "#67e8f9" : "#0e7490";
+  const color = theme === "dark" ? "#67e8f9" : "#085454";
 
   return (
     <>
@@ -143,7 +143,7 @@ function FloatingShapes() {
 function GridLines() {
   const { theme } = useTheme();
   
-  const color = theme === "dark" ? "#1e293b" : "#e2e8f0";
+  const color = theme === "dark" ? "#1e293b" : "#d6d3cc";
 
   return (
     <gridHelper
@@ -172,7 +172,7 @@ function SceneContent() {
 export default function Scene() {
   const { theme, mounted } = useTheme();
   
-  const bgColor = theme === "dark" ? "#030712" : "#fafbfc";
+  const bgColor = theme === "dark" ? "#030712" : "#f5f3ef";
 
   if (!mounted) {
     return <div className="fixed inset-0 -z-10 bg-background" />;

@@ -17,20 +17,20 @@
 }
 
 :root {
-  /* Light theme */
-  --bg: #fafbfc;
-  --fg: #0f172a;
-  --muted: #64748b;
-  --accent: #0891b2;
-  --accent-light: #22d3ee;
-  --accent-dark: #0e7490;
-  --card-bg: #ffffff;
-  --card-border: #e2e8f0;
-  --gradient-start: #f0f9ff;
-  --gradient-end: #e0f2fe;
-  --three-bg: #f8fafc;
-  --three-particles: #0891b2;
-  --three-particles-secondary: #06b6d4;
+  /* Light theme - warm cream with deep teal accents */
+  --bg: #f5f3ef;
+  --fg: #1a1816;
+  --muted: #4a4543;
+  --accent: #0d6e6e;
+  --accent-light: #0a8585;
+  --accent-dark: #085454;
+  --card-bg: #fffef9;
+  --card-border: #d6d3cc;
+  --gradient-start: #e8e5de;
+  --gradient-end: #dfdbd3;
+  --three-bg: #f5f3ef;
+  --three-particles: #0d6e6e;
+  --three-particles-secondary: #0a8585;
 }
 
 .dark {
@@ -87,6 +87,13 @@ body {
 
 /* Gradient text utility */
 .gradient-text {
+  background: linear-gradient(135deg, #085454, #0d6e6e, #0a8585);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
   background: linear-gradient(135deg, var(--accent-light), var(--accent), var(--accent-dark));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -95,9 +102,9 @@ body {
 
 /* Glass effect */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 254, 249, 0.7);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(26, 24, 22, 0.1);
 }
 
 .dark .glass {
@@ -107,7 +114,7 @@ body {
 
 /* Glow effect */
 .glow {
-  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+  box-shadow: 0 0 20px rgba(13, 110, 110, 0.25);
 }
 
 .dark .glow {
