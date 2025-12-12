@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Droplet } from "lucide-react";
 import { SITE_CONFIG, SOCIAL_LINKS } from "@/app/constants";
+import { TerminalCard } from "@/app/components/ui/Card";
 
 const roles = [
   "AI & Full-Stack Developer",
@@ -73,17 +74,17 @@ export default function Hero() {
         </motion.h1>
 
         {/* Animated Role */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="h-12 sm:h-14 mb-8 flex items-center justify-center"
-        >
-          <span className="text-xl sm:text-2xl md:text-3xl text-muted">
-            {displayedText}
-            <span className="animate-pulse text-accent">|</span>
-          </span>
-        </motion.div>
+        <div className="mb-8 flex items-center justify-center">
+          <TerminalCard delay={0.2} className="inline-block">
+            <div className="flex items-center gap-2 h-12 sm:h-14">
+              <span className="text-accent text-xl sm:text-2xl md:text-3xl">&gt;</span>
+              <span className="text-xl sm:text-2xl md:text-3xl text-muted">
+                {displayedText}
+                <span className="animate-pulse text-accent">|</span>
+              </span>
+            </div>
+          </TerminalCard>
+        </div>
 
         {/* Subtitle */}
         <motion.p
