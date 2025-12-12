@@ -73,12 +73,12 @@ export default function TechStack() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-              className="bg-card border border-card-border rounded-2xl p-6 hover:border-accent/30 transition-colors duration-300"
+              className="bg-card border border-card-border rounded-2xl p-4 sm:p-6 hover:border-accent/30 transition-colors duration-300"
             >
               <h3 className="text-xl font-semibold mb-6 text-accent">
                 {category.name}
               </h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                 {category.items.map((item, itemIndex) => {
                   const IconComponent = iconMap[item.icon];
                   return (
@@ -92,12 +92,12 @@ export default function TechStack() {
                         delay: categoryIndex * 0.1 + itemIndex * 0.05,
                       }}
                       whileHover={{ scale: 1.05, y: -2 }}
-                      className="flex items-center gap-3 p-3 rounded-xl bg-background/50 border border-transparent hover:border-accent/20 transition-all duration-200"
+                      className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl bg-background/50 border border-transparent hover:border-accent/20 transition-all duration-200"
                     >
                       {IconComponent && (
-                        <IconComponent className="w-5 h-5 text-accent flex-shrink-0" />
+                        <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-accent flex-shrink-0" />
                       )}
-                      <span className="text-sm font-medium truncate">{item.name}</span>
+                      <span className="text-xs sm:text-sm font-medium leading-tight">{item.name}</span>
                     </motion.div>
                   );
                 })}
