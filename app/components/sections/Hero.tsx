@@ -50,7 +50,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4">
+    <section className="relative min-h-screen flex items-center justify-center px-4 pt-24 sm:pt-0">
       <div className="max-w-4xl mx-auto text-center">
         {/* Greeting */}
         <motion.p

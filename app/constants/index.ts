@@ -3,6 +3,7 @@ export const SITE_CONFIG = {
   title: "AI & Full-Stack Developer",
   subtitle: "Building intelligent web experiences with cutting-edge AI and modern frameworks",
   domain: "bloem.dev",
+  brand: "Bloem.dev",
   description: "Personal portfolio of Emiel Bloem - AI specialist and full-stack developer",
 };
 

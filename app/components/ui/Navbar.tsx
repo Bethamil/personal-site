@@ -50,7 +50,7 @@ export default function Navbar() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
-              <span className="gradient-text">{SITE_CONFIG.name.split(" ")[0]}</span>
+              <span className="gradient-text">{SITE_CONFIG.brand}</span>
             </motion.a>
 
             {/* Desktop Navigation */}
