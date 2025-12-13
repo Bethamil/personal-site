@@ -103,7 +103,7 @@ export const PROJECTS = {
   },
   drupalCta: {
     text: "View Drupal projects",
-    link: "https://git.drupalcode.org/dashboard/projects",
+    link: "https://git.drupalcode.org/users/emielb/contributed",
   },
 };
 
