@@ -41,7 +41,7 @@ export const TECH_STACK = {
       items: [
         { name: "Frontier LLMs", icon: "Brain" },
         { name: "Open Source/Weight LLMs", icon: "Sparkles" },
-        { name: "LangChain", icon: "Link" },
+        { name: "AI Agents", icon: "CircuitBoard" },
         { name: "RAG Systems", icon: "Database" },
       ],
     },
@@ -58,7 +58,7 @@ export const TECH_STACK = {
       name: "Backend & CMS",
       items: [
         { name: "Drupal", icon: "Droplet" },
-        { name: "PHP", icon: "Server" },
+        { name: "Node.js", icon: "Hexagon" },
         { name: "Symfony", icon: "Code2" },
         { name: "Spring Boot", icon: "Leaf" },
       ],
