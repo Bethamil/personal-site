@@ -1,9 +1,9 @@
 services:
-  bloem-dev:
+  personal-site:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: bloem-dev
+    container_name: personal-site
     restart: unless-stopped
     ports:
       - "8123:8080"
