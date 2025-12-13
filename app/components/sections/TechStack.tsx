@@ -107,7 +107,7 @@ export default function TechStack() {
                       {IconComponent && (
                         <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-accent flex-shrink-0" />
                       )}
-                      <span className="text-xs sm:text-sm font-medium leading-tight">{item.name}</span>
+                      <span className="text-sm sm:text-base font-medium leading-tight">{item.name}</span>
                     </motion.div>
                   );
                 })}

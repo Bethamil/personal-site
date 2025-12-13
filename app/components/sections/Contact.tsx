@@ -54,10 +54,6 @@ export default function Contact() {
                 <ArrowUpRight className="w-4 h-4" />
               </motion.a>
 
-              {/* Email hint */}
-              <div className="text-muted text-center sm:text-left">
-                <p className="text-sm">or reach out via LinkedIn message</p>
-              </div>
             </div>
           </div>
         </motion.div>
@@ -71,7 +67,7 @@ export default function Contact() {
           className="mt-24 pt-8 border-t border-card-border text-center"
         >
           <p className="text-muted text-sm">
-            © {new Date().getFullYear()} {SITE_CONFIG.name}. Built with Next.js, Three.js & Tailwind CSS.
+            © {new Date().getFullYear()} {SITE_CONFIG.name}.
           </p>
           <p className="text-muted/60 text-xs mt-2">
             {SITE_CONFIG.domain}
