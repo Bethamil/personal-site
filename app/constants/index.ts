@@ -24,9 +24,7 @@ export const ABOUT_CONTENT = {
   sectionLabel: "ABOUT ME",
   title: "About",
   paragraphs: [
-    "I'm a full-stack software engineer with a strong focus on AI integration and modern web development. My primary languages are Python, TypeScript, and PHP, which I use daily to build intelligent, scalable applications across diverse technology stacks.",
-    "My specialization lies at the intersection of AI and web development. I work extensively with Large Language Models—both frontier models and open source/weight alternatives. From prompt engineering to RAG architectures and AI-powered user experiences, I bring cutting-edge artificial intelligence seamlessly into production applications.",
-    "I combine deep technical knowledge with practical experience in enterprise CMS systems like Drupal, modern frameworks like Next.js and Symfony, and backend technologies including Spring Boot. Whether it's building intelligent AI applications, architecting complex web solutions, or deploying with Kubernetes and Docker, I deliver powerful and elegant solutions.",
+    "I'm a full-stack software engineer building modern web applications with PHP, Drupal, Next.js, and TypeScript. I also work extensively with Python for LLM-powered applications—from RAG architectures to AI-driven user experiences—bringing intelligent features into production when needed.",
   ],
 };
 
