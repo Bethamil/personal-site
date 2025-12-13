@@ -1,6 +1,4 @@
-"use client";
-
-import dynamic from "next/dynamic";
+import { lazy, Suspense } from "react";
 import Navbar from "./components/ui/Navbar";
 import Hero from "./components/sections/Hero";
 import About from "./components/sections/About";
@@ -8,19 +6,16 @@ import TechStack from "./components/sections/TechStack";
 import Projects from "./components/sections/Projects";
 import Contact from "./components/sections/Contact";
 
-// Dynamically import Three.js scene to avoid SSR issues
-const Scene = dynamic(() => import("./components/three/Scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="fixed inset-0 -z-10 bg-background" />
-  ),
-});
+// Lazy load Three.js scene for better initial load
+const Scene = lazy(() => import("./components/three/Scene"));
 
-export default function Home() {
+export default function App() {
   return (
     <>
       {/* ThreeJS Background */}
-      <Scene />
+      <Suspense fallback={<div className="fixed inset-0 -z-10 bg-background" />}>
+        <Scene />
+      </Suspense>
 
       {/* Navigation */}
       <Navbar />

@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
@@ -66,4 +64,3 @@ export function TerminalCard({ children, className = "", delay = 0 }: TerminalCa
     </motion.div>
   );
 }
-

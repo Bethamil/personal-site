@@ -114,4 +114,3 @@ export const CONTACT = {
     "Feel free to connect with me via LinkedIn for any inquiries or professional engagements. You can reach out to me by sending a message or connecting directly through my LinkedIn profile. I look forward to hearing from you!",
   linkedinName: "Emiel Bloem",
 };
-

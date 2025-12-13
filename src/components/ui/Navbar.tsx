@@ -1,9 +1,7 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { SITE_CONFIG, NAVIGATION } from "@/app/constants";
+import { SITE_CONFIG, NAVIGATION } from "@/constants";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
@@ -119,4 +117,3 @@ export default function Navbar() {
     </>
   );
 }
-

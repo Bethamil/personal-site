@@ -1,10 +1,8 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Droplet } from "lucide-react";
-import { SITE_CONFIG, SOCIAL_LINKS } from "@/app/constants";
-import { TerminalCard } from "@/app/components/ui/Card";
+import { SITE_CONFIG, SOCIAL_LINKS } from "@/constants";
+import { TerminalCard } from "@/components/ui/Card";
 
 const roles = [
   "AI & Full-Stack Developer",
@@ -20,7 +18,7 @@ export default function Hero() {
 
   useEffect(() => {
     const currentRole = roles[roleIndex];
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout>;
 
     if (!isDeleting) {
       if (displayedText.length < currentRole.length) {
@@ -157,4 +155,3 @@ export default function Hero() {
     </section>
   );
 }
-

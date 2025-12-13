@@ -1,8 +1,6 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { ExternalLink, Github, Sparkles, ArrowDown, Droplet } from "lucide-react";
-import { PROJECTS, SOCIAL_LINKS } from "@/app/constants";
+import { PROJECTS } from "@/constants";
 
 export default function Projects() {
   const scrollToContact = () => {
@@ -191,4 +189,3 @@ export default function Projects() {
     </section>
   );
 }
-

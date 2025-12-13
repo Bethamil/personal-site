@@ -1,9 +1,7 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { Linkedin, ArrowUpRight, ArrowUp } from "lucide-react";
-import { CONTACT, SOCIAL_LINKS, SITE_CONFIG } from "@/app/constants";
-import { GlassCard } from "@/app/components/ui/Card";
+import { CONTACT, SOCIAL_LINKS, SITE_CONFIG } from "@/constants";
+import { GlassCard } from "@/components/ui/Card";
 
 export default function Contact() {
   const scrollToTop = () => {

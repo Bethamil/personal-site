@@ -2,10 +2,11 @@
   "name": "personal-site",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "lint": "eslint"
   },
   "dependencies": {
@@ -13,7 +14,6 @@
     "@react-three/fiber": "^9.4.2",
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.561.0",
-    "next": "16.0.10",
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "three": "^0.182.0"
@@ -23,9 +23,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.7.0",
     "eslint": "^9",
-    "eslint-config-next": "16.0.10",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "^6.4.1"
   }
 }

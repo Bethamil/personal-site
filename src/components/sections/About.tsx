@@ -1,8 +1,6 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { Brain, Code2, Layers, ArrowDown } from "lucide-react";
-import { ABOUT_CONTENT } from "@/app/constants";
+import { ABOUT_CONTENT } from "@/constants";
 
 const highlights = [
   {
@@ -105,4 +103,3 @@ export default function About() {
     </section>
   );
 }
-

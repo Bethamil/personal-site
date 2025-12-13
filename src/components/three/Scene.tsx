@@ -1,7 +1,5 @@
-"use client";
-
 import { useRef, useMemo, Suspense, useEffect } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Line, Instances, Instance, Float } from "@react-three/drei";
 import * as THREE from "three";
 import { useTheme } from "../ThemeProvider";
@@ -17,8 +15,6 @@ function NeuralNetwork() {
   // Adjusted colors for visibility
   const nodeColor = theme === "dark" ? "#22d3ee" : "#0d6e6e"; // Dark teal for light mode
   const synapseColor = theme === "dark" ? "#0891b2" : "#0891b2"; // Keep same or darker
-  const pulseColor = theme === "dark" ? "#ffffff" : "#0d6e6e"; // Dark pulse for light mode? Or keep white if background is dark enough
-  // Actually on light mode, white pulse is invisible. Let's use a bright teal or even dark teal.
   
   const nodeCount = 30; 
   const connectionDistance = 16;
@@ -39,15 +35,12 @@ function NeuralNetwork() {
   }, []);
 
   const connections = useMemo(() => {
-    const lines = [];
     const pairs = [];
     
     for (let i = 0; i < nodeCount; i++) {
       for (let j = i + 1; j < nodeCount; j++) {
         const dist = nodes[i].position.distanceTo(nodes[j].position);
         if (dist < connectionDistance) {
-          lines.push(nodes[i].position);
-          lines.push(nodes[j].position);
           pairs.push({
              start: nodes[i].position, 
              end: nodes[j].position,
@@ -56,7 +49,7 @@ function NeuralNetwork() {
         }
       }
     }
-    return { lines, pairs };
+    return { pairs };
   }, [nodes]);
 
   return (
@@ -125,7 +118,13 @@ function NodeInstance({ position, phase }: { position: THREE.Vector3, phase: num
   );
 }
 
-function DataPulses({ pairs, color }: { pairs: any[], color: string }) {
+interface ConnectionPair {
+  start: THREE.Vector3;
+  end: THREE.Vector3;
+  dist: number;
+}
+
+function DataPulses({ pairs, color }: { pairs: ConnectionPair[], color: string }) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const count = pairs.length;
   const { theme } = useTheme();
@@ -139,7 +138,7 @@ function DataPulses({ pairs, color }: { pairs: any[], color: string }) {
     }));
   }, [pairs]);
 
-  useFrame(({ clock }, delta) => {
+  useFrame((_, delta) => {
     if (!meshRef.current) return;
 
     pulses.forEach((pulse, i) => {

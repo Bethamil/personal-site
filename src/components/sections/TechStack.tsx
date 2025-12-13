@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 import {
   Brain,
@@ -24,7 +22,7 @@ import {
   CircuitBoard,
   Ship,
 } from "lucide-react";
-import { TECH_STACK } from "@/app/constants";
+import { TECH_STACK } from "@/constants";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Brain,
@@ -136,4 +134,3 @@ export default function TechStack() {
     </section>
   );
 }
-
