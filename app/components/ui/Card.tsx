@@ -60,7 +60,7 @@ export function TerminalCard({ children, className = "", delay = 0 }: TerminalCa
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
-      className={`bg-card border-2 border-card-border rounded-lg px-6 py-4 font-mono ${className}`}
+      className={`glass border-2 border-card-border rounded-lg px-6 py-4 font-mono ${className}`}
     >
       {children}
     </motion.div>
