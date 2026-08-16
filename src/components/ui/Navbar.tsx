@@ -1,118 +1,126 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { SITE_CONFIG, NAVIGATION } from "@/constants";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { NAVIGATION, SITE_CONFIG, scrollToId } from "@/constants";
 import ThemeToggle from "./ThemeToggle";
+import { useSite } from "../SiteProvider";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { section, setPaletteOpen } = useSite();
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
-    setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const go = (href: string) => {
+    setOpen(false);
+    scrollToId(href.replace("#", ""));
   };
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? "bg-background/80 backdrop-blur-lg border-b border-card-border"
-            : "bg-transparent"
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-colors ${
+          scrolled || open ? "border-b border-line bg-background/85 backdrop-blur-md" : ""
         }`}
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
-        <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            {/* Logo */}
-            <motion.a
-              href="#"
-              className="flex items-center gap-2 text-xl font-bold text-foreground"
-              whileHover={{ scale: 1.02 }}
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              <span className="gradient-text">{SITE_CONFIG.brand}</span>
-            </motion.a>
+        <nav className="mx-auto flex h-14 max-w-[1400px] items-center justify-between gap-3 px-4 sm:h-16 sm:px-6">
+          <a
+            href="#intro"
+            className="font-mono text-[13px] tracking-[0.08em] text-foreground"
+            onClick={(event) => {
+              event.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            <span className="text-accent">❯</span> {SITE_CONFIG.brand}
+          </a>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
-              {NAVIGATION.map((item) => (
-                <motion.button
-                  key={item.href}
-                  onClick={() => handleNavClick(item.href)}
-                  className="text-muted hover:text-foreground transition-colors duration-200 text-sm font-medium"
-                  whileHover={{ y: -2 }}
+          <div className="hidden items-center gap-7 lg:flex">
+            {NAVIGATION.map((item) => {
+              const current = section === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => go(item.href)}
+                  className={`font-mono text-[11px] tracking-[0.16em] uppercase transition-colors ${
+                    current ? "text-accent" : "text-muted hover:text-foreground"
+                  }`}
                 >
+                  <span className="mr-2 text-[10px] opacity-60">{item.index}</span>
                   {item.label}
-                </motion.button>
-              ))}
-              <ThemeToggle />
-            </div>
+                </button>
+              );
+            })}
+          </div>
 
-            {/* Mobile Menu Button */}
-            <div className="flex items-center gap-4 md:hidden">
-              <ThemeToggle />
-              <motion.button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 text-foreground"
-                whileTap={{ scale: 0.95 }}
-              >
-                {isMobileMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </motion.button>
-            </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              className="inline-flex h-11 items-center gap-2 border border-line px-3 font-mono text-[11px] tracking-[0.12em] text-muted uppercase transition-colors hover:border-accent hover:text-accent"
+              aria-label="Open command palette"
+            >
+              <span className="hidden sm:inline">Command</span>
+              <span className="sm:hidden">Cmd</span>
+              <kbd className="hidden text-[10px] text-foreground/70 md:inline">⌘K</kbd>
+            </button>
+            <ThemeToggle />
+            <button
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center border border-line lg:hidden"
+              onClick={() => setOpen((value) => !value)}
+              aria-expanded={open}
+              aria-label={open ? "Close menu" : "Open menu"}
+            >
+              <span className="sr-only">Menu</span>
+              <span className="flex w-4 flex-col gap-1.5">
+                <span className={`h-px w-full bg-foreground transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`} />
+                <span className={`h-px w-full bg-foreground transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`} />
+              </span>
+            </button>
           </div>
         </nav>
-      </motion.header>
+      </header>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
+        {open ? (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-16 z-40 bg-background/95 backdrop-blur-lg border-b border-card-border md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-background lg:hidden"
+            style={{ paddingTop: "calc(env(safe-area-inset-top) + 3.5rem)" }}
           >
-            <nav className="mx-auto max-w-6xl px-4 py-4">
-              <div className="flex flex-col gap-4">
+            <div className="flex h-full flex-col justify-between px-5 pb-10">
+              <div className="flex flex-col gap-1 pt-6">
                 {NAVIGATION.map((item, index) => (
                   <motion.button
-                    key={item.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    onClick={() => handleNavClick(item.href)}
-                    className="text-left text-lg font-medium text-muted hover:text-foreground transition-colors py-2"
+                    key={item.id}
+                    type="button"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    onClick={() => go(item.href)}
+                    className="flex min-h-16 items-baseline justify-between border-b border-line py-4 text-left"
                   >
-                    {item.label}
+                    <span className="font-display text-4xl">{item.label}</span>
+                    <span className="font-mono text-xs text-muted">{item.index}</span>
                   </motion.button>
                 ))}
               </div>
-            </nav>
+              <p className="font-mono text-[11px] tracking-[0.16em] text-muted uppercase">
+                {SITE_CONFIG.roleLine}
+              </p>
+            </div>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </>
   );

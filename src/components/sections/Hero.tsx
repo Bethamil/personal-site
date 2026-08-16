@@ -1,156 +1,79 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Droplet } from "lucide-react";
-import { SITE_CONFIG, SOCIAL_LINKS } from "@/constants";
-import { TerminalCard } from "@/components/ui/Card";
+import { SITE_CONFIG, SOCIAL_LINKS, scrollToId } from "@/constants";
+import HeroTerminal from "../HeroTerminal";
 
-const roles = [
-  "AI & Full-Stack Developer",
-  "LLM Integration Specialist",
-  "Next.js Developer",
-  "Drupal Developer",
+const SOCIAL = [
+  { label: "GitHub", href: SOCIAL_LINKS.github },
+  { label: "LinkedIn", href: SOCIAL_LINKS.linkedin },
+  { label: "Drupal", href: SOCIAL_LINKS.drupal },
 ];
 
 export default function Hero() {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const currentRole = roles[roleIndex];
-    let timeout: ReturnType<typeof setTimeout>;
-
-    if (!isDeleting) {
-      if (displayedText.length < currentRole.length) {
-        timeout = setTimeout(() => {
-          setDisplayedText(currentRole.slice(0, displayedText.length + 1));
-        }, 80);
-      } else {
-        timeout = setTimeout(() => {
-          setIsDeleting(true);
-        }, 2000);
-      }
-    } else {
-      if (displayedText.length > 0) {
-        timeout = setTimeout(() => {
-          setDisplayedText(displayedText.slice(0, -1));
-        }, 40);
-      } else {
-        setIsDeleting(false);
-        setRoleIndex((prev) => (prev + 1) % roles.length);
-      }
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayedText, isDeleting, roleIndex]);
-
-  const scrollToAbout = () => {
-    document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-24 sm:pt-0">
-      <div className="max-w-4xl mx-auto text-center">
-        {/* Greeting */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-accent font-medium mb-4 tracking-wider"
-        >
-          HELLO, I&apos;M
-        </motion.p>
-
-        {/* Name */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6"
-        >
-          <span className="gradient-text">{SITE_CONFIG.name}</span>
-        </motion.h1>
-
-        {/* Animated Role */}
-        <div className="mb-8 flex items-center justify-center">
-          <TerminalCard delay={0.2} className="inline-block">
-            <div className="flex items-center gap-2 h-12 sm:h-14">
-              <span className="text-accent text-xl sm:text-2xl md:text-3xl">&gt;</span>
-              <span className="text-xl sm:text-2xl md:text-3xl text-muted">
-                {displayedText}
-                <span className="animate-pulse text-accent">|</span>
-              </span>
-            </div>
-          </TerminalCard>
+    <section
+      id="intro"
+      className="relative px-4 pb-16 pt-24 sm:px-6 sm:pb-24 sm:pt-28 lg:pt-32"
+    >
+      <div className="mx-auto grid max-w-[1400px] items-end gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
+        <div>
+          <motion.p
+            className="kicker mb-5"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            {SITE_CONFIG.roleLine}
+          </motion.p>
+          <motion.h1
+            className="font-display text-[18vw] leading-[0.86] tracking-[-0.04em] sm:text-7xl md:text-8xl lg:text-[7.4rem]"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+          >
+            {SITE_CONFIG.firstName}
+            <br />
+            {SITE_CONFIG.lastName}
+            <span className="cursor-block" aria-hidden />
+          </motion.h1>
+          <motion.p
+            className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.12 }}
+          >
+            {SITE_CONFIG.subtitle}
+          </motion.p>
+          <motion.div
+            className="mt-8 flex flex-wrap gap-3"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18 }}
+          >
+            <button type="button" className="btn-primary" onClick={() => scrollToId("work")}>
+              View work
+            </button>
+            {SOCIAL.map((item) => (
+              <a
+                key={item.label}
+                className="btn-ghost"
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {item.label}
+              </a>
+            ))}
+          </motion.div>
+          <p className="mt-6 hidden font-mono text-[11px] tracking-[0.14em] text-muted uppercase md:block">
+            press ⌘K or type in the shell →
+          </p>
         </div>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10"
-        >
-          {SITE_CONFIG.subtitle}
-        </motion.p>
-
-        {/* Social Links */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex items-center justify-center gap-4 mb-16 flex-wrap"
+          transition={{ delay: 0.2 }}
         >
-          <motion.a
-            href={SOCIAL_LINKS.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 bg-card border border-card-border rounded-full hover:border-accent transition-all duration-300 group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Github className="w-5 h-5 group-hover:text-accent transition-colors" />
-            <span className="font-medium">GitHub</span>
-          </motion.a>
-          <motion.a
-            href={SOCIAL_LINKS.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-full hover:bg-accent-dark transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Linkedin className="w-5 h-5" />
-            <span className="font-medium">LinkedIn</span>
-          </motion.a>
-          <motion.a
-            href={SOCIAL_LINKS.drupal}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 bg-card border border-card-border rounded-full hover:border-accent transition-all duration-300 group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Droplet className="w-5 h-5 group-hover:text-accent transition-colors" />
-            <span className="font-medium">Drupal</span>
-          </motion.a>
+          <HeroTerminal />
         </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          onClick={scrollToAbout}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted hover:text-accent transition-colors"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <ArrowDown className="w-6 h-6" />
-          </motion.div>
-        </motion.button>
       </div>
     </section>
   );

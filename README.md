@@ -1,8 +1,6 @@
-# Personal Site
+# bloem.dev
 
-A personal portfolio website built with Next.js and Three.js.
-
-## Development
+Personal site for Emiel Bloem — AI engineer.
 
 ```bash
 bun install
@@ -11,9 +9,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-## Build
-
 ```bash
 bun run build
-bun start
+bun run preview
 ```
