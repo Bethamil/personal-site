@@ -4,13 +4,24 @@ import { filterCommands, siteCommands, type SiteCommand } from "@/data/catalog";
 import { useSite } from "./SiteProvider";
 import { useTheme } from "./ThemeProvider";
 
+function keepRowInView(list: HTMLElement, row: HTMLElement) {
+  const listBox = list.getBoundingClientRect();
+  const rowBox = row.getBoundingClientRect();
+  if (rowBox.top < listBox.top) {
+    list.scrollTop -= listBox.top - rowBox.top;
+  } else if (rowBox.bottom > listBox.bottom) {
+    list.scrollTop += rowBox.bottom - listBox.bottom;
+  }
+}
+
 export default function CommandPalette() {
   const { paletteOpen, setPaletteOpen } = useSite();
   const { toggleTheme } = useTheme();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const activeItemRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const allowHover = useRef(true);
 
   const close = useCallback(() => {
     setPaletteOpen(false);
@@ -26,24 +37,29 @@ export default function CommandPalette() {
   }, [query, paletteOpen]);
 
   useEffect(() => {
-    activeItemRef.current?.scrollIntoView({ block: "nearest" });
+    const list = listRef.current;
+    const row = list?.querySelector<HTMLElement>(`[data-cmd-index="${active}"]`);
+    if (list && row) keepRowInView(list, row);
   }, [active, filtered]);
 
   useEffect(() => {
     if (!paletteOpen) return;
+    allowHover.current = true;
     const id = window.setTimeout(() => inputRef.current?.focus(), 20);
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
         close();
+        return;
       }
-      if (event.key === "ArrowDown") {
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
         event.preventDefault();
-        setActive((i) => Math.min(i + 1, Math.max(filtered.length - 1, 0)));
-      }
-      if (event.key === "ArrowUp") {
-        event.preventDefault();
-        setActive((i) => Math.max(i - 1, 0));
+        allowHover.current = false;
+        setActive((index) => {
+          const last = Math.max(filtered.length - 1, 0);
+          return event.key === "ArrowDown" ? Math.min(index + 1, last) : Math.max(index - 1, 0);
+        });
+        return;
       }
       if (event.key === "Enter" && filtered[active]) {
         event.preventDefault();
@@ -107,7 +123,13 @@ export default function CommandPalette() {
               />
               <kbd className="hidden font-mono text-[10px] tracking-widest text-muted sm:inline">ESC</kbd>
             </div>
-            <div className="max-h-[min(60vh,420px)] overflow-y-auto py-2">
+            <div
+              ref={listRef}
+              className="max-h-[min(60vh,420px)] overflow-y-auto py-2"
+              onMouseMove={() => {
+                allowHover.current = true;
+              }}
+            >
               {filtered.length === 0 ? (
                 <p className="px-4 py-6 font-mono text-sm text-muted">No matches.</p>
               ) : (
@@ -124,8 +146,10 @@ export default function CommandPalette() {
                         <button
                           key={command.id}
                           type="button"
-                          ref={selected ? activeItemRef : undefined}
-                          onMouseEnter={() => setActive(index)}
+                          data-cmd-index={index}
+                          onMouseEnter={() => {
+                            if (allowHover.current) setActive(index);
+                          }}
                           onClick={() => {
                             command.run();
                             close();
