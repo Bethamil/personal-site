@@ -1,4 +1,4 @@
-import { SITE_CONFIG } from "@/constants";
+import { SITE_CONFIG } from "@/data/site";
 import { useSite } from "./SiteProvider";
 
 export default function StatusBar() {

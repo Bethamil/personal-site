@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { NAVIGATION, SITE_CONFIG, scrollToId } from "@/constants";
+import { NAVIGATION, SITE_CONFIG, navIndex } from "@/data/site";
+import { scrollToId } from "@/lib/scroll";
 import ThemeToggle from "./ThemeToggle";
 import { useSite } from "../SiteProvider";
 
@@ -16,9 +17,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const go = (href: string) => {
+  const go = (id: string) => {
     setOpen(false);
-    scrollToId(href.replace("#", ""));
+    scrollToId(id);
   };
 
   return (
@@ -48,12 +49,12 @@ export default function Navbar() {
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => go(item.href)}
+                  onClick={() => go(item.id)}
                   className={`font-mono text-[11px] tracking-[0.16em] uppercase transition-colors ${
                     current ? "text-accent" : "text-muted hover:text-foreground"
                   }`}
                 >
-                  <span className="mr-2 text-[10px] opacity-60">{item.index}</span>
+                  <span className="mr-2 text-[10px] opacity-60">{navIndex(item.id)}</span>
                   {item.label}
                 </button>
               );
@@ -107,11 +108,11 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    onClick={() => go(item.href)}
+                    onClick={() => go(item.id)}
                     className="flex min-h-16 items-baseline justify-between border-b border-line py-4 text-left"
                   >
                     <span className="font-display text-4xl">{item.label}</span>
-                    <span className="font-mono text-xs text-muted">{item.index}</span>
+                    <span className="font-mono text-xs text-muted">{navIndex(item.id)}</span>
                   </motion.button>
                 ))}
               </div>

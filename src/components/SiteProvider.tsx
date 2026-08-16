@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { NAVIGATION } from "@/constants";
+import { NAVIGATION } from "@/data/site";
 
 type SiteContextType = {
   paletteOpen: boolean;

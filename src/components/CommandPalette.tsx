@@ -1,16 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { SOCIAL_LINKS, scrollToId } from "@/constants";
+import { filterCommands, siteCommands, type SiteCommand } from "@/data/catalog";
 import { useSite } from "./SiteProvider";
 import { useTheme } from "./ThemeProvider";
-
-type Command = {
-  id: string;
-  group: string;
-  label: string;
-  hint: string;
-  run: () => void;
-};
 
 export default function CommandPalette() {
   const { paletteOpen, setPaletteOpen } = useSite();
@@ -18,6 +10,7 @@ export default function CommandPalette() {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const activeItemRef = useRef<HTMLButtonElement>(null);
 
   const close = useCallback(() => {
     setPaletteOpen(false);
@@ -25,90 +18,16 @@ export default function CommandPalette() {
     setActive(0);
   }, [setPaletteOpen]);
 
-  const commands = useMemo<Command[]>(
-    () => [
-      {
-        id: "work",
-        group: "Navigate",
-        label: "Selected work",
-        hint: "01",
-        run: () => scrollToId("work"),
-      },
-      {
-        id: "about",
-        group: "Navigate",
-        label: "About",
-        hint: "02",
-        run: () => scrollToId("about"),
-      },
-      {
-        id: "systems",
-        group: "Navigate",
-        label: "Systems stack",
-        hint: "03",
-        run: () => scrollToId("systems"),
-      },
-      {
-        id: "contact",
-        group: "Navigate",
-        label: "Contact",
-        hint: "04",
-        run: () => scrollToId("contact"),
-      },
-      {
-        id: "poker",
-        group: "Open",
-        label: "Terminal Poker",
-        hint: "poker.bloem.dev",
-        run: () => window.open("https://poker.bloem.dev", "_blank", "noopener,noreferrer"),
-      },
-      {
-        id: "forkai",
-        group: "Open",
-        label: "ForKAI",
-        hint: "AI recipes",
-        run: () => window.open("https://forkai.vercel.app/", "_blank", "noopener,noreferrer"),
-      },
-      {
-        id: "github",
-        group: "Open",
-        label: "GitHub",
-        hint: "Bethamil",
-        run: () => window.open(SOCIAL_LINKS.github, "_blank", "noopener,noreferrer"),
-      },
-      {
-        id: "linkedin",
-        group: "Open",
-        label: "LinkedIn",
-        hint: "connect",
-        run: () => window.open(SOCIAL_LINKS.linkedin, "_blank", "noopener,noreferrer"),
-      },
-      {
-        id: "drupal",
-        group: "Open",
-        label: "Drupal",
-        hint: "emielb",
-        run: () => window.open(SOCIAL_LINKS.drupal, "_blank", "noopener,noreferrer"),
-      },
-      {
-        id: "theme",
-        group: "System",
-        label: "Toggle theme",
-        hint: "light / dark",
-        run: () => toggleTheme(),
-      },
-    ],
-    [toggleTheme],
-  );
-
-  const filtered = commands.filter((command) => {
-    const hay = `${command.label} ${command.hint} ${command.group}`.toLowerCase();
-    return hay.includes(query.toLowerCase().trim());
-  });
+  const commands = useMemo(() => siteCommands(toggleTheme), [toggleTheme]);
+  const filtered = filterCommands(commands, query);
 
   useEffect(() => {
     setActive(0);
   }, [query, paletteOpen]);
+
+  useEffect(() => {
+    activeItemRef.current?.scrollIntoView({ block: "nearest" });
+  }, [active, filtered]);
 
   useEffect(() => {
     if (!paletteOpen) return;
@@ -139,7 +58,7 @@ export default function CommandPalette() {
     };
   }, [paletteOpen, filtered, active, close]);
 
-  const groups = filtered.reduce<Record<string, Command[]>>((acc, command) => {
+  const groups = filtered.reduce<Record<string, SiteCommand[]>>((acc, command) => {
     acc[command.group] ??= [];
     acc[command.group].push(command);
     return acc;
@@ -205,6 +124,7 @@ export default function CommandPalette() {
                         <button
                           key={command.id}
                           type="button"
+                          ref={selected ? activeItemRef : undefined}
                           onMouseEnter={() => setActive(index)}
                           onClick={() => {
                             command.run();

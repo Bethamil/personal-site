@@ -1,14 +1,12 @@
-import { motion } from "framer-motion";
-import { SITE_CONFIG, SOCIAL_LINKS, scrollToId } from "@/constants";
+import { HERO_SOCIAL_IDS, SITE_CONFIG, socialById } from "@/data/site";
+import { scrollToId } from "@/lib/scroll";
 import HeroTerminal from "../HeroTerminal";
-
-const SOCIAL = [
-  { label: "GitHub", href: SOCIAL_LINKS.github },
-  { label: "LinkedIn", href: SOCIAL_LINKS.linkedin },
-  { label: "Drupal", href: SOCIAL_LINKS.drupal },
-];
+import ExternalLink from "../ui/ExternalLink";
+import Rise from "../ui/Rise";
 
 export default function Hero() {
+  const linkedin = socialById("linkedin");
+
   return (
     <section
       id="intro"
@@ -16,64 +14,45 @@ export default function Hero() {
     >
       <div className="mx-auto grid max-w-[1400px] items-end gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
         <div>
-          <motion.p
-            className="kicker mb-5"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <Rise as="p" className="kicker mb-5">
             {SITE_CONFIG.roleLine}
-          </motion.p>
-          <motion.h1
-            className="font-display text-[18vw] leading-[0.86] tracking-[-0.04em] sm:text-7xl md:text-8xl lg:text-[7.4rem]"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
-          >
+          </Rise>
+          <Rise as="h1" delay={0.05} className="font-display text-[18vw] leading-[0.86] tracking-[-0.04em] sm:text-7xl md:text-8xl lg:text-[7.4rem]">
             {SITE_CONFIG.firstName}
             <br />
             {SITE_CONFIG.lastName}
             <span className="cursor-block" aria-hidden />
-          </motion.h1>
-          <motion.p
-            className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12 }}
-          >
+          </Rise>
+          <Rise as="p" delay={0.12} className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
             {SITE_CONFIG.subtitle}
-          </motion.p>
-          <motion.div
-            className="mt-8 flex flex-wrap gap-3"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.18 }}
-          >
+          </Rise>
+          <Rise delay={0.18} className="mt-8 flex flex-wrap gap-3">
             <button type="button" className="btn-primary" onClick={() => scrollToId("work")}>
               View work
             </button>
-            {SOCIAL.map((item) => (
-              <a
-                key={item.label}
-                className="btn-ghost"
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {item.label}
-              </a>
-            ))}
-          </motion.div>
+            <div className="flex gap-3">
+              {HERO_SOCIAL_IDS.map((id) => {
+                const item = socialById(id);
+                return item ? (
+                  <ExternalLink key={item.id} href={item.href} className="btn-ghost">
+                    {item.label}
+                  </ExternalLink>
+                ) : null;
+              })}
+            </div>
+            {linkedin ? (
+              <ExternalLink href={linkedin.href} className="btn-ghost">
+                {linkedin.label}
+              </ExternalLink>
+            ) : null}
+          </Rise>
           <p className="mt-6 hidden font-mono text-[11px] tracking-[0.14em] text-muted uppercase md:block">
             press ⌘K or type in the shell →
           </p>
         </div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
+        <Rise delay={0.2}>
           <HeroTerminal />
-        </motion.div>
+        </Rise>
       </div>
     </section>
   );

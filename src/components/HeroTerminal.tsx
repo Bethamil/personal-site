@@ -1,43 +1,50 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { SOCIAL_LINKS, scrollToId } from "@/constants";
-import { useTheme, type Theme } from "./ThemeProvider";
+import { SITE_CONFIG } from "@/data/site";
+import { findOpenTarget, openUsage, projectListLines } from "@/data/catalog";
+import { openExternal } from "@/lib/open";
+import { scrollToId } from "@/lib/scroll";
+import { isThemeCommand, resolveTheme } from "@/lib/theme";
+import { useTheme } from "./ThemeProvider";
 
 type Line = { kind: "in" | "out" | "dim"; text: string };
 
-const INTRO: Line[] = [
-  { kind: "dim", text: "bloem.dev — shell  v1.0" },
-  { kind: "in", text: "whoami" },
-  { kind: "out", text: "emiel bloem  ·  ai & full-stack developer" },
-  { kind: "dim", text: "type help  ·  try ls, theme toggle, open github" },
-];
+function introLines(): Line[] {
+  const who = `${SITE_CONFIG.firstName} ${SITE_CONFIG.lastName}  ·  ${SITE_CONFIG.roleLine}`.toLowerCase();
+  return [
+    { kind: "dim", text: `${SITE_CONFIG.brand} — shell  v1.0` },
+    { kind: "in", text: "whoami" },
+    { kind: "out", text: who },
+    { kind: "dim", text: "type help  ·  try ls, theme toggle, open github" },
+  ];
+}
 
-const HELP = [
-  "whoami     identity",
-  "ls         selected work",
-  "open       poker | forkai | github | linkedin | drupal",
-  "stack      tech stack",
-  "theme      toggle | light | dark",
-  "clear      wipe the buffer",
-];
+function helpLines(): Line[] {
+  return [
+    "whoami     identity",
+    "ls         selected work",
+    openUsage(),
+    "stack      tech stack",
+    "theme      toggle | light | dark",
+    "clear      wipe the buffer",
+  ].map((text) => ({ kind: "dim" as const, text }));
+}
 
-function runCommand(
-  raw: string,
-  helpers: { setTheme: (theme: Theme) => void },
-): Line[] {
-  const input = raw.trim();
-  const [cmd, arg] = input.split(/\s+/, 2);
+function runCommand(raw: string, setTheme: (theme: "light" | "dark") => void): Line[] {
+  const [cmd, arg] = raw.trim().split(/\s+/, 2);
   const key = (cmd ?? "").toLowerCase();
-
   if (!key) return [];
-  if (key === "help") return HELP.map((text) => ({ kind: "dim" as const, text }));
+
+  if (key === "help") return helpLines();
   if (key === "whoami") {
-    return [{ kind: "out", text: "emiel bloem  ·  ai & full-stack developer" }];
+    return [
+      {
+        kind: "out",
+        text: `${SITE_CONFIG.firstName} ${SITE_CONFIG.lastName}  ·  ${SITE_CONFIG.roleLine}`.toLowerCase(),
+      },
+    ];
   }
   if (key === "ls") {
-    return [
-      { kind: "out", text: "forkai/   ai-rag-api/   ai-ckeditor-cefr/" },
-      { kind: "out", text: "terminal-poker/   nonce-generator/   next-custom-tags/" },
-    ];
+    return projectListLines().map((text) => ({ kind: "out" as const, text }));
   }
   if (key === "stack") {
     scrollToId("systems");
@@ -48,33 +55,23 @@ function runCommand(
     return [{ kind: "dim", text: "opening contact…" }];
   }
   if (key === "theme") {
-    const requested = (arg ?? "").toLowerCase();
-    if (requested !== "toggle" && requested !== "light" && requested !== "dark") {
+    if (!arg || !isThemeCommand(arg.toLowerCase())) {
       return [{ kind: "dim", text: "usage: theme toggle  |  theme light  |  theme dark" }];
     }
-    const current: Theme = document.documentElement.classList.contains("light") ? "light" : "dark";
-    const next: Theme =
-      requested === "toggle" ? (current === "light" ? "dark" : "light") : requested;
-    helpers.setTheme(next);
+    const next = resolveTheme(arg.toLowerCase() as "toggle" | "light" | "dark");
+    setTheme(next);
     return [{ kind: "dim", text: `theme → ${next}` }];
   }
-  if (key === "open") {
-    const map: Record<string, string> = {
-      poker: "https://poker.bloem.dev",
-      forkai: "https://forkai.vercel.app/",
-      github: SOCIAL_LINKS.github,
-      linkedin: SOCIAL_LINKS.linkedin,
-      drupal: SOCIAL_LINKS.drupal,
-    };
-    const url = arg ? map[arg.toLowerCase()] : undefined;
-    if (!url) return [{ kind: "dim", text: "open poker | forkai | github | linkedin | drupal" }];
-    window.open(url, "_blank", "noopener,noreferrer");
-    return [{ kind: "dim", text: `opening ${arg}` }];
+
+  const target = key === "open" ? (arg ? findOpenTarget(arg) : undefined) : findOpenTarget(key);
+  if (key === "open" && !target) {
+    return [{ kind: "dim", text: openUsage() }];
   }
-  if (key === "poker") {
-    window.open("https://poker.bloem.dev", "_blank", "noopener,noreferrer");
-    return [{ kind: "dim", text: "opening poker.bloem.dev" }];
+  if (target) {
+    openExternal(target.url);
+    return [{ kind: "dim", text: `opening ${target.id}` }];
   }
+
   return [{ kind: "dim", text: `command not found: ${key}  —  try help` }];
 }
 
@@ -86,16 +83,16 @@ export default function HeroTerminal() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    let i = 0;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setLines(INTRO);
+    const intro = introLines();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setLines(intro);
       return;
     }
+    let i = 0;
     const id = window.setInterval(() => {
       i += 1;
-      setLines(INTRO.slice(0, i));
-      if (i >= INTRO.length) window.clearInterval(id);
+      setLines(intro.slice(0, i));
+      if (i >= intro.length) window.clearInterval(id);
     }, 220);
     return () => window.clearInterval(id);
   }, []);
@@ -112,7 +109,7 @@ export default function HeroTerminal() {
       setValue("");
       return;
     }
-    const output = runCommand(command, { setTheme });
+    const output = runCommand(command, setTheme);
     setLines((prev) => [...prev, { kind: "in", text: command }, ...output]);
     setValue("");
   };
@@ -123,7 +120,7 @@ export default function HeroTerminal() {
       onClick={() => inputRef.current?.focus()}
     >
       <div className="flex items-center justify-between border-b border-white/10 px-3 py-2 font-mono text-[10px] tracking-[0.16em] text-white/45 uppercase">
-        <span>zsh  ·  bloem.dev</span>
+        <span>zsh  ·  {SITE_CONFIG.brand}</span>
         <span className="flex gap-1.5">
           <span className="size-2 rounded-full bg-white/15" />
           <span className="size-2 rounded-full bg-white/15" />
