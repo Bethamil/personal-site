@@ -67,7 +67,7 @@ export function SiteProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({ paletteOpen, setPaletteOpen, section, bootDone, setBootDone }),
-    [paletteOpen, section, bootDone],
+    [paletteOpen, section, bootDone, setBootDone],
   );
 
   return <SiteContext.Provider value={value}>{children}</SiteContext.Provider>;

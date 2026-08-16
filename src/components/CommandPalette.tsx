@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SOCIAL_LINKS, scrollToId } from "@/constants";
 import { useSite } from "./SiteProvider";
@@ -19,11 +19,11 @@ export default function CommandPalette() {
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const close = () => {
+  const close = useCallback(() => {
     setPaletteOpen(false);
     setQuery("");
     setActive(0);
-  };
+  }, [setPaletteOpen]);
 
   const commands = useMemo<Command[]>(
     () => [
@@ -137,7 +137,7 @@ export default function CommandPalette() {
       clearTimeout(id);
       window.removeEventListener("keydown", onKey);
     };
-  }, [paletteOpen, filtered, active]);
+  }, [paletteOpen, filtered, active, close]);
 
   const groups = filtered.reduce<Record<string, Command[]>>((acc, command) => {
     acc[command.group] ??= [];
